@@ -175,7 +175,6 @@ class App {
     this.panelManager.lockRollButton();
 
     try {
-      const speed = this.panelManager.getSelectedSpeed();
       const allResults = [];
 
       for (let i = 0; i < 10; i++) {
@@ -183,16 +182,8 @@ class App {
         allResults.push(result);
       }
 
-      if (speed <= 0) {
-        // 跳过动画模式：不弹窗，仅更新面板
-        this._updateStatusPanel();
-      } else {
-        // 正常模式：只弹出最佳奖励的那一次
-        const bestResult = this._pickBestResult(allResults);
-        if (bestResult) {
-          this.modalManager.showReward(bestResult);
-        }
-      }
+      // 显示十连批量结果弹窗
+      this.modalManager.showBatchResults(allResults);
     } catch (err) {
       console.error('十连掷出错:', err);
     } finally {
@@ -216,6 +207,7 @@ class App {
       this.diceAnimator.showValue(diceValue);
     } else {
       diceValue = Math.floor(Math.random() * 6) + 1;
+      this.diceAnimator.showValue(diceValue);
     }
 
     // 2. 计算目标位置
@@ -271,6 +263,8 @@ class App {
       }
       this.isInBranch = null;
       this.branchStep = 0;
+      // 同步清除引擎的分支状态
+      this.engine.exitBranch();
     }
 
     // 8. 显示奖励弹窗（跳过动画时不弹）
@@ -400,29 +394,6 @@ class App {
         resolve(entered);
       });
     });
-  }
-
-  /**
-   * 从多个结果中挑选最佳奖励（用于十连只弹一次弹窗）
-   * 优先级: s_character > skin > a_disk > b_disk > 其他
-   * @param {Array} results
-   * @returns {Object|null}
-   */
-  _pickBestResult(results) {
-    const priority = { s_character: 0, skin: 1, a_character: 2, a_disk: 3, b_disk: 4, gold_chip: 5, white_chip: 6, dice: 7 };
-    let best = null;
-    let bestP = 99;
-    for (const r of results) {
-      if (!r.rewards || r.rewards.length === 0) continue;
-      for (const rw of r.rewards) {
-        const p = priority[rw.type] != null ? priority[rw.type] : 99;
-        if (p < bestP) {
-          bestP = p;
-          best = r;
-        }
-      }
-    }
-    return best;
   }
 
   // ======================== 其他操作 ========================

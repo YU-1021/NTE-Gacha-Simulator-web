@@ -27,6 +27,14 @@ export class GameEngine {
   }
 
   /**
+   * 游戏退出分支时，同步清除引擎内部的分支状态
+   */
+  exitBranch() {
+    this.inBranch = null;
+    this.branchStep = 0;
+  }
+
+  /**
    * 执行一次完整的掷骰流程
    * @param {Object} params
    * @param {number} params.currentPosIdx - 当前位置索引（落点，骰子移动后的目标位置）
@@ -56,7 +64,7 @@ export class GameEngine {
 
     // 5. 检测分支入口
     let branchEvent = null;
-    if (branchEntries && !isInBranch && !this.inBranch) {
+    if (branchEntries && !isInBranch) {
       for (const [branchName, entry] of Object.entries(branchEntries)) {
         if (currentPosIdx === entry.entry_main_idx) {
           this.inBranch = branchName;
@@ -122,7 +130,9 @@ export class GameEngine {
     } else {
       pityEvent = this.state.incrementSPity();
 
-      // 9. 保底触发且本轮没有S角色时，强制出S
+      // 9. 保底安全网：仅在变格触发或硬保底时额外尝试抽S
+      //    正常模式下S由格子暗箱（学徒0.2%门/勇者3%门/同行1.19%）决定
+      //    变格后isVariant=true，勇者宝箱门概率从3%提升到60%
       if (pityEvent === 'variant' || pityEvent === 'hard_pity') {
         const [got, charName, reason] = this.gacha.gachaSCharacter();
         if (got) {

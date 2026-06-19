@@ -240,6 +240,47 @@
   animation: modalSlideIn 0.3s ease, pityPulse 1.5s ease-in-out infinite;
 }
 
+/* --- 十连批量结果列表 --- */
+.batch-list {
+  max-height: 360px;
+  overflow-y: auto;
+  margin-bottom: 16px;
+  text-align: left;
+}
+
+.batch-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.batch-item:last-child {
+  border-bottom: none;
+}
+
+.batch-num {
+  color: var(--text-secondary);
+  font-size: 12px;
+  min-width: 28px;
+}
+
+.batch-dice {
+  color: var(--text-secondary);
+  font-size: 12px;
+  min-width: 32px;
+}
+
+.batch-reward {
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
 /* --- 移动端适配 --- */
 @media (max-width: 600px) {
   .modal-content {

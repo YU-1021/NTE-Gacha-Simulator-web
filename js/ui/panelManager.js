@@ -153,6 +153,7 @@ export class PanelManager {
    */
   getSelectedSpeed() {
     if (!this.speedSelect) return 1;
-    return parseFloat(this.speedSelect.value) || 1;
+    const v = parseFloat(this.speedSelect.value);
+    return isNaN(v) ? 1 : v; // "0" 要返回 0，不能用 || 1
   }
 }

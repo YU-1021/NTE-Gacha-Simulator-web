@@ -146,6 +146,48 @@ export class ModalManager {
   }
 
   /**
+   * 批量显示十连结果（列表形式）
+   * @param {Array} allResults - 10个掷骰结果对象
+   */
+  showBatchResults(allResults) {
+    this._ensureOverlay();
+    this._clearAutoDismiss();
+
+    const items = allResults.map((r, i) => {
+      const rewards = r.rewards || [];
+      if (rewards.length === 0) {
+        return `<div class="batch-item"><span class="batch-num">#${i + 1}</span><span class="batch-dice">骰${r.diceValue}</span><span class="batch-reward log-no-reward">无奖励</span></div>`;
+      }
+      const rewardHtml = rewards.map(rw => {
+        let css = 'log-b';
+        if (rw.type === 's_character') css = 'log-s';
+        else if (rw.type === 'a_character' || rw.type === 'a_disk') css = 'log-a';
+        else if (rw.type === 'skin') css = 'log-skin';
+        else if (rw.type === 'gold_chip') css = 'reward-chip-gold';
+        else if (rw.type === 'white_chip') css = 'reward-chip-white';
+        else if (rw.type === 'dice') css = 'log-dice';
+        return `<span class="${css}">${rw.name}</span>`;
+      }).join(' ');
+      return `<div class="batch-item"><span class="batch-num">#${i + 1}</span><span class="batch-dice">骰${r.diceValue}</span><span class="batch-reward">${rewardHtml}</span></div>`;
+    }).join('');
+
+    this.modalContent.innerHTML = `
+      <div style="font-size:18px;font-weight:700;margin-bottom:16px;color:var(--text-white);">十连结果</div>
+      <div class="batch-list">${items}</div>
+      <div class="modal-close">点击关闭</div>
+    `;
+
+    this.modalContent.className = 'modal-content modal-none';
+    this._show();
+
+    const handler = () => {
+      this.hide();
+      this.modalContent.removeEventListener('click', handler);
+    };
+    this.modalContent.addEventListener('click', handler);
+  }
+
+  /**
    * 隐藏弹窗
    */
   hide() {
