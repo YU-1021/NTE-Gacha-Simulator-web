@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="异环抽卡模拟器 - 非官方网页版棋盘抽卡模拟工具">
+  <meta name="theme-color" content="#0d0d1a">
+  <title>异环抽卡模拟器</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/board.css">
+  <link rel="stylesheet" href="css/panel.css">
+  <link rel="stylesheet" href="css/modal.css">
+</head>
+<body>
+  <div id="app">
+    <header class="app-header">
+      <h1>异环抽卡模拟器</h1>
+      <p class="subtitle">网页版 - 非官方模拟工具</p>
+    </header>
+
+    <div class="main-layout">
+      <!-- 状态面板（左侧） -->
+      <aside class="status-panel" id="statusPanel">
+        <h3>游戏状态</h3>
+        <div class="stat-item">
+          <span class="label">总掷骰次数</span>
+          <span class="value" id="statTotalRolls">0</span>
+        </div>
+        <div class="stat-item">
+          <span class="label">S级保底</span>
+          <span class="value" id="statPity">0/90</span>
+        </div>
+        <div class="stat-item">
+          <span class="label">变格状态</span>
+          <span class="value" id="statVariant">基准</span>
+        </div>
+        <div class="stat-item">
+          <span class="label">集点赠礼</span>
+          <span class="value" id="statGift">0/10</span>
+        </div>
+        <div class="stat-item">
+          <span class="label">金色棋子</span>
+          <span class="value" id="statGoldChips">0</span>
+        </div>
+        <div class="stat-item">
+          <span class="label">白色棋子</span>
+          <span class="value" id="statWhiteChips">0</span>
+        </div>
+      </aside>
+
+      <!-- 棋盘区域（中央） -->
+      <main class="board-area" id="boardArea">
+        <canvas id="boardCanvas"></canvas>
+        <!-- 骰子显示 -->
+        <div class="dice-display" id="diceDisplay">🎲</div>
+      </main>
+
+      <!-- 控制面板（右侧） -->
+      <aside class="control-panel" id="controlPanel">
+        <h3>操作面板</h3>
+        <div class="panel-section">
+          <label for="boardSelect">选择棋盘</label>
+          <select id="boardSelect">
+            <option value="limited_xun">★限定棋盘（浔）</option>
+            <option value="limited_requiem">★限定棋盘（安魂曲）</option>
+          </select>
+        </div>
+        <div class="panel-section">
+          <label for="speedSelect">动画速度</label>
+          <select id="speedSelect">
+            <option value="0.5">0.5x 慢速</option>
+            <option value="1" selected>1x 正常</option>
+            <option value="2">2x 快速</option>
+            <option value="4">4x 极速</option>
+            <option value="0">跳过动画</option>
+          </select>
+        </div>
+        <div class="panel-section buttons">
+          <button id="rollBtn" class="btn btn-primary">掷骰子</button>
+          <button id="tenRollBtn" class="btn btn-secondary">十连掷</button>
+          <button id="resetBtn" class="btn btn-danger">重置</button>
+        </div>
+      </aside>
+    </div>
+
+    <!-- 日志区域（底部） -->
+    <div class="log-area" id="logArea">
+      <div class="log-header">
+        <h3>抽卡记录</h3>
+        <button id="clearLogBtn" class="btn btn-small">清空</button>
+      </div>
+      <div class="log-content" id="logContainer"></div>
+    </div>
+
+    <!-- 弹窗覆盖层 -->
+    <div class="modal-overlay" id="modalOverlay" style="display:none;">
+      <div class="modal-content" id="modalContent"></div>
+    </div>
+  </div>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

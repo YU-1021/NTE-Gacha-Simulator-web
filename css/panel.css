@@ -1,0 +1,400 @@
+/* ============================================================
+   panel.css - 控制面板与状态面板样式
+   ============================================================ */
+
+/* --- 面板通用 --- */
+.status-panel,
+.control-panel {
+  background: var(--bg-card);
+  border-radius: var(--border-radius);
+  padding: 16px;
+  align-self: flex-start;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
+}
+
+.status-panel h3,
+.control-panel h3 {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 14px;
+  color: var(--text-white);
+  letter-spacing: 0.5px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+/* --- 状态项 --- */
+.stat-item,
+.status-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 4px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  font-size: 13px;
+  transition: background var(--transition-fast);
+}
+
+.stat-item:last-child,
+.status-item:last-child {
+  border-bottom: none;
+}
+
+.stat-item:hover {
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 6px;
+}
+
+.stat-item .label {
+  color: var(--text-secondary);
+  font-size: 13px;
+}
+
+.stat-item .value {
+  color: var(--text-white);
+  font-weight: 700;
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* 特殊状态值颜色 */
+.stat-item .value[data-highlight="gold"] {
+  color: var(--gold-start);
+}
+
+.stat-item .value[data-highlight="variant"] {
+  color: var(--purple-start);
+}
+
+.stat-item .value[data-highlight="green"] {
+  color: var(--green-start);
+}
+
+/* --- 面板分区 --- */
+.panel-section {
+  margin-bottom: 14px;
+}
+
+.panel-section:last-child {
+  margin-bottom: 0;
+}
+
+.panel-section label {
+  display: block;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+}
+
+/* --- 下拉选择框 --- */
+.panel-section select {
+  width: 100%;
+  padding: 9px 12px;
+  background: var(--bg-input);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 13px;
+  cursor: pointer;
+  outline: none;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.panel-section select:hover {
+  border-color: rgba(255, 215, 0, 0.3);
+}
+
+.panel-section select:focus {
+  border-color: var(--gold-start);
+  box-shadow: 0 0 0 2px rgba(255, 215, 0, 0.1);
+}
+
+/* --- 按钮 --- */
+.btn {
+  display: block;
+  width: 100%;
+  padding: 11px 16px;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    opacity var(--transition-fast),
+    transform var(--transition-fast),
+    box-shadow var(--transition-fast);
+  color: #fff;
+  letter-spacing: 0.5px;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.1), transparent);
+  pointer-events: none;
+}
+
+.btn:hover {
+  opacity: 0.92;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.btn:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+.btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--gold-start), var(--gold-end));
+  color: #000;
+  box-shadow: 0 2px 10px rgba(255, 215, 0, 0.2);
+}
+
+.btn-primary:hover:not(:disabled) {
+  box-shadow: 0 4px 16px rgba(255, 215, 0, 0.3);
+}
+
+.btn-secondary {
+  background: linear-gradient(135deg, var(--purple-start), var(--purple-end));
+  box-shadow: 0 2px 10px rgba(168, 85, 247, 0.2);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  box-shadow: 0 4px 16px rgba(168, 85, 247, 0.3);
+}
+
+.btn-danger {
+  background: linear-gradient(135deg, var(--danger-color), var(--danger-hover));
+  box-shadow: 0 2px 10px rgba(239, 68, 68, 0.15);
+}
+
+.btn-danger:hover:not(:disabled) {
+  box-shadow: 0 4px 16px rgba(239, 68, 68, 0.25);
+}
+
+.btn-small {
+  display: inline-block;
+  width: auto;
+  padding: 4px 12px;
+  font-size: 11px;
+  font-weight: 500;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-secondary);
+  border-radius: 6px;
+  letter-spacing: 0;
+}
+
+.btn-small:hover {
+  color: var(--text-white);
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.panel-section.buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* --- 日志区域 --- */
+.log-area {
+  margin-top: var(--gap);
+  background: var(--bg-card);
+  border-radius: var(--border-radius);
+  border: 1px solid var(--border-color);
+  padding: 16px;
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+.log-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.log-header h3 {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-white);
+}
+
+.log-content {
+  font-size: 13px;
+  line-height: 1.7;
+  font-variant-numeric: tabular-nums;
+}
+
+.log-entry {
+  padding: 5px 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  border-radius: 4px;
+  transition: background var(--transition-fast);
+}
+
+.log-entry:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.log-entry:last-child {
+  border-bottom: none;
+}
+
+/* --- 日志等级颜色 --- */
+.log-s,
+.reward-s {
+  color: #FFD700;
+  font-weight: 700;
+  text-shadow: 0 0 8px rgba(255, 215, 0, 0.3);
+}
+
+.log-a,
+.reward-a,
+.reward-a-disk {
+  color: #C084FC;
+  font-weight: 600;
+}
+
+.log-b,
+.reward-b {
+  color: #60A5FA;
+}
+
+.log-skin,
+.reward-skin {
+  color: #F472B6;
+  font-weight: 600;
+}
+
+.reward-chip-white {
+  color: #94A3B8;
+}
+
+.reward-chip-gold {
+  color: #FCD34D;
+}
+
+.reward-dice {
+  color: #4ADE80;
+}
+
+.log-roll-num {
+  color: var(--text-secondary);
+  margin-right: 6px;
+  font-size: 12px;
+}
+
+.log-dice {
+  margin-right: 6px;
+  font-size: 12px;
+}
+
+.log-cell {
+  color: var(--text-secondary);
+  margin-right: 6px;
+  font-size: 12px;
+}
+
+.log-no-reward {
+  color: #4B5563;
+  font-size: 12px;
+}
+
+.log-gift {
+  color: #FCD34D;
+  font-weight: 500;
+}
+
+.log-branch {
+  color: #60A5FA;
+  font-weight: 500;
+}
+
+/* --- 移动端适配 --- */
+@media (max-width: 960px) {
+  .control-panel {
+    display: grid;
+    grid-template-columns: 1fr 1fr auto;
+    gap: 10px;
+    align-items: end;
+  }
+  .control-panel h3 {
+    display: none;
+  }
+  .panel-section {
+    margin-bottom: 0;
+  }
+  .panel-section.buttons {
+    flex-direction: row;
+    gap: 8px;
+  }
+  .panel-section.buttons .btn {
+    white-space: nowrap;
+    padding: 10px 20px;
+  }
+  .log-area {
+    max-height: 160px;
+  }
+}
+
+@media (max-width: 600px) {
+  .status-panel,
+  .control-panel {
+    padding: 10px;
+    border-radius: 8px;
+  }
+  .control-panel {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .panel-section.buttons {
+    grid-column: 1 / -1;
+  }
+  .panel-section.buttons .btn {
+    padding: 12px 16px;
+    font-size: 15px;
+  }
+  .panel-section select {
+    padding: 10px 10px;
+    font-size: 14px;
+  }
+  .log-area {
+    max-height: 140px;
+    padding: 10px;
+  }
+  .log-entry {
+    padding: 4px 6px;
+    font-size: 12px;
+  }
+}
+
+/* --- 触摸优化 --- */
+@media (pointer: coarse) {
+  .btn {
+    min-height: 44px;
+  }
+  .panel-section select {
+    min-height: 44px;
+  }
+  .btn-small {
+    min-height: 36px;
+    padding: 6px 14px;
+  }
+}

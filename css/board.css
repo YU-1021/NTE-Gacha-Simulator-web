@@ -1,0 +1,129 @@
+/* ============================================================
+   board.css - 棋盘区域样式
+   ============================================================ */
+
+.board-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  min-height: 400px;
+  padding: 8px;
+}
+
+#boardCanvas {
+  width: 100%;
+  max-width: 100%;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-card);
+  box-shadow: var(--shadow-md), inset 0 1px 0 rgba(255, 255, 255, 0.03);
+  transition: box-shadow var(--transition-normal);
+}
+
+#boardCanvas:hover {
+  box-shadow: var(--shadow-lg), inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+/* --- 骰子显示 --- */
+.dice-display {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 52px;
+  font-weight: 800;
+  color: var(--gold-start);
+  pointer-events: none;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  opacity: 1;
+  text-shadow: 0 2px 12px rgba(255, 215, 0, 0.4);
+  user-select: none;
+}
+
+.dice-display.rolling {
+  animation: diceShake 0.6s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+}
+
+.dice-display.hidden {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.5);
+}
+
+/* --- 骰子数字容器 --- */
+.dice-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  background: linear-gradient(135deg, #1a1a3d, #2a2a5a);
+  border: 2px solid var(--gold-start);
+  border-radius: 14px;
+  box-shadow:
+    0 0 20px rgba(255, 215, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+@keyframes diceShake {
+  0%   { transform: translate(-50%, -50%) rotate(0deg) scale(1); }
+  10%  { transform: translate(-50%, -50%) rotate(-25deg) scale(1.15); }
+  20%  { transform: translate(-50%, -50%) rotate(25deg) scale(1.2); }
+  30%  { transform: translate(-50%, -50%) rotate(-20deg) scale(1.15); }
+  40%  { transform: translate(-50%, -50%) rotate(20deg) scale(1.1); }
+  50%  { transform: translate(-50%, -50%) rotate(-15deg) scale(1.08); }
+  60%  { transform: translate(-50%, -50%) rotate(15deg) scale(1.05); }
+  70%  { transform: translate(-50%, -50%) rotate(-8deg) scale(1.03); }
+  80%  { transform: translate(-50%, -50%) rotate(8deg) scale(1.01); }
+  90%  { transform: translate(-50%, -50%) rotate(-3deg) scale(1); }
+  100% { transform: translate(-50%, -50%) rotate(0deg) scale(1); }
+}
+
+/* --- 变格状态指示 --- */
+.board-area.variant-mode #boardCanvas {
+  border-color: rgba(168, 85, 247, 0.4);
+  box-shadow:
+    var(--shadow-md),
+    0 0 30px rgba(168, 85, 247, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+/* --- 移动端适配 --- */
+@media (max-width: 960px) {
+  .board-area {
+    min-height: 300px;
+    padding: 4px;
+  }
+  .dice-display {
+    font-size: 44px;
+  }
+  .dice-number {
+    width: 52px;
+    height: 52px;
+  }
+}
+
+@media (max-width: 600px) {
+  .board-area {
+    min-height: 240px;
+    padding: 2px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  #boardCanvas {
+    border-radius: 8px;
+    border-width: 1px;
+    /* 允许横向滚动查看完整棋盘 */
+    min-width: 500px;
+  }
+  .dice-display {
+    font-size: 38px;
+    top: 40%;
+  }
+  .dice-number {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+  }
+}
